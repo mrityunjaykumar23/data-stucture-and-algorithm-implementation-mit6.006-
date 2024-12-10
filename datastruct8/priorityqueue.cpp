@@ -64,6 +64,84 @@ class prioritysortedarray:public priorityqueue{
     }
 };
 
+class pq_heap:public priorityqueue{
+    public:
+    void insert(int value){
+        priorityqueue::insert(value);
+        int n=container.size();
+        max_heapify_up(n-1,n);
+    }
+
+    int delete_max(){
+        if(container.size()<=1){
+            return priorityqueue::delete_max();
+        }
+        swap(container[0],container.back());
+        int max_value=container.back();   
+        container.pop_back(); 
+        max_heapify_down(0,container.size());
+        return max_value;
+    }
+
+private:
+    int parent(int i){
+        int p= (i-1)/2;
+        return (p>0)? p:i;
+    }
+    int left(int i,int n){
+        int l=2*i+1;
+        return (l<n)? l:i;
+    }
+    int right(int i,int n){
+        int r=2*i+2;
+        return (r<n)? r:i;
+    }
+
+    void max_heapify_up(int i,int n){
+        int p=parent(i);
+        while(i>0 && container[p]<container[i]){
+            swap(container[p],container[i]);
+            i=p;
+            p=parent(i);     //instead of recursion loop is written
+        }
+    }
+
+    void max_heapify_down(int i,int n){
+        int l=left(i,n);
+        int r=right(i,n);
+        int c;
+        if(container[l]<container[r]){
+            c=r;
+        }else{
+            c=l;
+        }
+        if(container[i]<container[c]){
+            swap(container[i],container[c]);
+            max_heapify_down(c,n);
+        }
+    }
+void max_heapify_down1(vector<int>&array,int i,int n){
+    int l=left(i,n);
+        int r=right(i,n);
+        int c;
+        if(container[l]<container[r]){
+            c=r;
+        }else{
+            c=l;
+        }
+        if(container[i]<container[c]){
+            swap(container[i],container[c]);
+            max_heapify_down(c,n);
+        }
+}
+void buid_max_heap(vector<int>&array){
+    int n=array.size();
+    for(int i=n/2-1;i>=0;i--){
+        max_heapify_down1(array,i,n);
+    }
+}
+};
+
 
 int main()
 {
