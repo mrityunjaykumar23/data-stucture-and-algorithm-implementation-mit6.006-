@@ -1,5 +1,5 @@
+#include <bits/stdc++.h>
 #include<iostream>       //implementing  in place priorityqueue sort 
-#include<vector>
 using namespace std;
 class inplacepriorityqueue{
     private:
